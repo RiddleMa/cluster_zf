@@ -1,0 +1,38 @@
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# My configurations:
+combinations_fre.txt
+combinations_list.txt
+list_fre.txt
+list_name.txt
+聚类结果.txt
+rel2.csv
+relatives_list.txt
+data/hebing2.txt
+data/test2.csv
+data/correlation.csv
+data/group3.csv
+data/group3.csv.pkl
+data/roup4.csv
+data/group4.csv.pkl
+data/group5.csv
+data/group5.csv.pkl
+data/group6.csv
+data/group6.csv.pkl
+data/group7.csv
+data/group7.csv.pkl
+data/group8.csv
+data/group8.csv.pkl
+data/group_all(ANSI).csv
+data/group_all.csv
