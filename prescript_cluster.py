@@ -74,8 +74,8 @@ def group_clean(pkl_file):
 if __name__ == '__main__':
     df = pd.read_csv('data/test2.csv', encoding='utf8')
     series = df['主治实体_symptom']
-    # series.dropna(inplace=True)#删掉nan
-    series = series.replace(np.nan, '')
+    series.dropna(inplace=True)#删掉nan
+    # series = series.replace(np.nan, '')
     new_dic = gene_dic('data/hebing.txt')
     new_dic_2 = gene_dic_2('data/hebing.txt')
     # 创建dataFrame存放onehot
