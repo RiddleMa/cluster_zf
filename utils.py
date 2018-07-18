@@ -65,6 +65,10 @@ def write_csv(name_list, file_path, *args):
         column = pd.Series(args[i], name=name)
         series_list.append(column)
     data = pd.concat(series_list, axis=1)
-    data = data.sort_values(by=name_list[1], ascending=False)
+    # data = data.sort_values(by=name_list[1], ascending=False)
     data.to_csv(file_path, index=False, encoding='utf-8')
     return data
+
+def is_in(sub_list,parent_list):
+    d = [False for item in sub_list if item not in parent_list]
+    return not d

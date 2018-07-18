@@ -19,7 +19,7 @@ def gene_dic(path):
     combine_dict = {}
     with open(path, 'r', encoding='utf-8') as file:
         for line in file:
-            seperate_word = line.strip().split(' ')
+            seperate_word = line.strip().split()
             combine_dict[seperate_word[0]] = seperate_word
     return combine_dict
 
@@ -35,7 +35,7 @@ def gene_dic_2(path):
     with open(path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         for i in range(len(lines)):
-            words = lines[i].strip().split(' ')
+            words = lines[i].strip().split()
             for word in words:
                 # combine_dict[word]=i
                 combine_dict[word] = words[0]
@@ -55,29 +55,26 @@ def group_clean(pkl_file):
     """
     group = utils.load_pickle(pkl_file)
     all_list = []
-    for i in range(len(group) - 1, 1, -1):
+    for i in range(len(group) - 1, 0, -1):
         item = list(group[i])
         member_num = len(item[0])
-        new_item = copy.deepcopy(item)
-        for comb in itertools.combinations(item, 2):
-            set1 = set(comb[0])
-            set2 = set(comb[1])
-            if len(set1 & set2) == member_num - 1:
-                if comb[0] in new_item:
-                    new_item.remove(comb[0])
-                if comb[1] in new_item:
-                    new_item.remove(comb[1])
+        new_item = copy.deepcopy(item)#用来进行删除操作的复制项
+        for item_li in item:
+            for li in all_list:
+                if(utils.is_in(item_li,li) and item_li in new_item):
+                    new_item.remove(item_li)
+                    break
         all_list.extend(new_item)
     return all_list
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('data/test2.csv', encoding='utf8')
-    series = df['主治实体_symptom']
+    df = pd.read_csv('data/test3.csv', encoding='utf8')
+    series = df['symptom']
     series.dropna(inplace=True)#删掉nan
     # series = series.replace(np.nan, '')
-    new_dic = gene_dic('data/hebing.txt')
-    new_dic_2 = gene_dic_2('data/hebing.txt')
+    new_dic = gene_dic('data/tongyici_3.txt')
+    new_dic_2 = gene_dic_2('data/tongyici_3.txt')
     # 创建dataFrame存放onehot
     df = pd.DataFrame(np.zeros((len(series), len(new_dic))), columns=new_dic.keys())
     # series去掉了nan值，index是不连贯的
@@ -85,7 +82,7 @@ if __name__ == '__main__':
         item_str = series[indexs]
         if item_str == '':
             continue
-        item_list = item_str.strip().split(' ')
+        item_list = item_str.strip().split()
         for item in item_list:
             if item in new_dic_2:
                 df[new_dic_2[item]].loc[indexs] = 1
@@ -131,5 +128,5 @@ if __name__ == '__main__':
     # group_7_all = utils.num_2_word(list_name, group_7_all)
     group_8_all = group_clean('data/group8.csv.pkl')
     # group_8_all = utils.num_2_word(list_name, group_8_all)
-    utils.write_csv(['group_8', 'group7', 'group6', 'group5'], 'data/group_all.csv', group_8_all, group_7_all,
+    utils.write_csv(['group8', 'group7', 'group6', 'group5'], 'data/group_all.csv', group_8_all, group_7_all,
                     group_6_all, group_5_all)
